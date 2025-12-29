@@ -13,29 +13,29 @@ public class InputSourceResolver {
         // 0x10 - DisplayPort 2
         "displayport2": (0x10, "displayport2"),
         "dp2": (0x10, "displayport2"),
-        // 0x17 - HDMI 1
-        "hdmi1": (0x17, "hdmi1"),
-        "hdmi": (0x17, "hdmi1"),
-        // 0x18 - HDMI 2
-        "hdmi2": (0x18, "hdmi2"),
-        // 0x25 - Thunderbolt/USB-C 1
-        "thunderbolt1": (0x25, "thunderbolt1"),
-        "usb1": (0x25, "thunderbolt1"),
-        "thunderbolt": (0x25, "thunderbolt1"),
-        "usb": (0x25, "thunderbolt1"),
-        // 0x27 - Thunderbolt/USB-C 2
-        "thunderbolt2": (0x27, "thunderbolt2"),
-        "usb2": (0x27, "thunderbolt2"),
+        // 0x11 - HDMI 1
+        "hdmi1": (0x11, "hdmi1"),
+        "hdmi": (0x11, "hdmi1"),
+        // 0x12 - HDMI 2
+        "hdmi2": (0x12, "hdmi2"),
+        // 0x19 - Thunderbolt/USB-C 1
+        "thunderbolt1": (0x19, "thunderbolt1"),
+        "usb1": (0x19, "thunderbolt1"),
+        "thunderbolt": (0x19, "thunderbolt1"),
+        "usb": (0x19, "thunderbolt1"),
+        // 0x1B - Thunderbolt/USB-C 2
+        "thunderbolt2": (0x1B, "thunderbolt2"),
+        "usb2": (0x1B, "thunderbolt2"),
     ]
 
     /// Reverse lookup: value to canonical name
     private static let valueToCanonical: [UInt16: String] = [
         0x0f: "displayport1",
         0x10: "displayport2",
-        0x17: "hdmi1",
-        0x18: "hdmi2",
-        0x25: "thunderbolt1",
-        0x27: "thunderbolt2",
+        0x11: "hdmi1",
+        0x12: "hdmi2",
+        0x19: "thunderbolt1",
+        0x1B: "thunderbolt2",
     ]
 
     /// Resolve an input source specifier to an InputSource

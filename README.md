@@ -93,10 +93,10 @@ Keywords are case-insensitive:
 | --------- | ------------------------------------ |
 | 0x0f      | displayport1, displayport, dp1, dp   |
 | 0x10      | displayport2, dp2                    |
-| 0x17      | hdmi1, hdmi                          |
-| 0x18      | hdmi2                                |
-| 0x25      | thunderbolt1, usb1, thunderbolt, usb |
-| 0x27      | thunderbolt2, usb2                   |
+| 0x11      | hdmi1, hdmi                          |
+| 0x12      | hdmi2                                |
+| 0x19      | thunderbolt1, usb1, thunderbolt, usb |
+| 0x1B      | thunderbolt2, usb2                   |
 
 You can also use hexadecimal (e.g., `0x0f`) or decimal (e.g., `15`) values directly.
 

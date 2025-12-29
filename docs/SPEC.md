@@ -155,7 +155,7 @@ If current input is `dp`, switches to `hdmi`.
 **Success Output**:
 
 ```
-Switched to: hdmi1 (0x17) from: displayport1 (0x0f)
+Switched to: hdmi1 (0x11) from: displayport1 (0x0f)
 ```
 
 ### kvm next

@@ -131,7 +131,7 @@ public static func writeVCP(display: Display, code: UInt8, value: UInt16) throws
 
 Some monitors (notably DELL) return duplicated bytes for VCP 0x60. For example:
 - Writing `0x0f` (DisplayPort) and reading back returns `0x0f0f`
-- Writing `0x17` (HDMI) and reading back returns `0x1717`
+- Writing `0x11` (HDMI) and reading back returns `0x1111`
 
 **Normalization Logic** (in `InputSourceResolver.normalizeVCPValue()`):
 
@@ -231,10 +231,10 @@ All monitor control in `dispsel` is implemented via VCP codes using the AppleSil
 |-------|---------------------|
 | 0x0f  | DisplayPort 1       |
 | 0x10  | DisplayPort 2       |
-| 0x17  | HDMI 1              |
-| 0x18  | HDMI 2              |
-| 0x25  | Thunderbolt/USB-C 1 |
-| 0x27  | Thunderbolt/USB-C 2 |
+| 0x11  | HDMI 1              |
+| 0x12  | HDMI 2              |
+| 0x19  | Thunderbolt/USB-C 1 |
+| 0x1B  | Thunderbolt/USB-C 2 |
 
 ### VCP Code 0xE7: KVM Switch
 
@@ -282,7 +282,7 @@ When `-q` flag is set:
 - Command argument parsing
 
 **Key Test Cases for Normalization**:
-- `vcpValueNormalization()`: Tests 0x0f0f → 0x0f, 0x1717 → 0x17
+- `vcpValueNormalization()`: Tests 0x0f0f → 0x0f, 0x1111 → 0x11
 - `nonDuplicatedBytesNotNormalized()`: Tests 0x1234 → 0x1234 (unchanged)
 - `normalizationEdgeCases()`: Tests 0x0000, 0xFFFF, single-byte values
 

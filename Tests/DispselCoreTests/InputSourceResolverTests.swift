@@ -27,27 +27,27 @@ struct InputSourceResolverTests {
     @Test("Resolve HDMI keywords")
     func keywordResolutionHDMI() throws {
         let hdmi = try InputSourceResolver.resolve("hdmi")
-        #expect(hdmi.value == 0x17)
+        #expect(hdmi.value == 0x11)
         #expect(hdmi.canonicalName == "hdmi1")
 
         let hdmi1 = try InputSourceResolver.resolve("hdmi1")
-        #expect(hdmi1.value == 0x17)
+        #expect(hdmi1.value == 0x11)
 
         let hdmi2 = try InputSourceResolver.resolve("hdmi2")
-        #expect(hdmi2.value == 0x18)
+        #expect(hdmi2.value == 0x12)
     }
 
     @Test("Resolve Thunderbolt keywords")
     func keywordResolutionThunderbolt() throws {
         let usb = try InputSourceResolver.resolve("usb")
-        #expect(usb.value == 0x25)
+        #expect(usb.value == 0x19)
         #expect(usb.canonicalName == "thunderbolt1")
 
         let thunderbolt = try InputSourceResolver.resolve("thunderbolt")
-        #expect(thunderbolt.value == 0x25)
+        #expect(thunderbolt.value == 0x19)
 
         let usb2 = try InputSourceResolver.resolve("usb2")
-        #expect(usb2.value == 0x27)
+        #expect(usb2.value == 0x1B)
         #expect(usb2.canonicalName == "thunderbolt2")
     }
 
@@ -57,10 +57,10 @@ struct InputSourceResolverTests {
         #expect(upperDP.value == 0x0f)
 
         let mixedHDMI = try InputSourceResolver.resolve("Hdmi")
-        #expect(mixedHDMI.value == 0x17)
+        #expect(mixedHDMI.value == 0x11)
 
         let upperUSB = try InputSourceResolver.resolve("USB")
-        #expect(upperUSB.value == 0x25)
+        #expect(upperUSB.value == 0x19)
     }
 
     // MARK: - Hex Resolution Tests
@@ -71,9 +71,9 @@ struct InputSourceResolverTests {
         #expect(hex0f.value == 0x0f)
         #expect(hex0f.canonicalName == "displayport1")
 
-        let hex17 = try InputSourceResolver.resolve("0x17")
-        #expect(hex17.value == 0x17)
-        #expect(hex17.canonicalName == "hdmi1")
+        let hex11 = try InputSourceResolver.resolve("0x11")
+        #expect(hex11.value == 0x11)
+        #expect(hex11.canonicalName == "hdmi1")
 
         let hexUppercase = try InputSourceResolver.resolve("0x0F")
         #expect(hexUppercase.value == 0x0f)
@@ -94,9 +94,9 @@ struct InputSourceResolverTests {
         #expect(decimal15.value == 15)
         #expect(decimal15.canonicalName == "displayport1")
 
-        let decimal23 = try InputSourceResolver.resolve("23")
-        #expect(decimal23.value == 23)
-        #expect(decimal23.canonicalName == "hdmi1")
+        let decimal17 = try InputSourceResolver.resolve("17")
+        #expect(decimal17.value == 17)
+        #expect(decimal17.canonicalName == "hdmi1")
     }
 
     @Test("Resolve unknown decimal values")
@@ -130,8 +130,8 @@ struct InputSourceResolverTests {
         #expect(dp.value == 0x0f)
         #expect(dp.canonicalName == "displayport1")
 
-        let hdmi = InputSourceResolver.fromValue(0x17)
-        #expect(hdmi.value == 0x17)
+        let hdmi = InputSourceResolver.fromValue(0x11)
+        #expect(hdmi.value == 0x11)
         #expect(hdmi.canonicalName == "hdmi1")
 
         let unknown = InputSourceResolver.fromValue(0xFF)
@@ -148,12 +148,12 @@ struct InputSourceResolverTests {
         #expect(dp.value == 0x0f)
         #expect(dp.canonicalName == "displayport1")
 
-        let hdmi = InputSourceResolver.fromValue(0x1717)
-        #expect(hdmi.value == 0x17)
+        let hdmi = InputSourceResolver.fromValue(0x1111)
+        #expect(hdmi.value == 0x11)
         #expect(hdmi.canonicalName == "hdmi1")
 
-        let thunderbolt = InputSourceResolver.fromValue(0x2525)
-        #expect(thunderbolt.value == 0x25)
+        let thunderbolt = InputSourceResolver.fromValue(0x1919)
+        #expect(thunderbolt.value == 0x19)
         #expect(thunderbolt.canonicalName == "thunderbolt1")
     }
 
@@ -164,8 +164,8 @@ struct InputSourceResolverTests {
         #expect(mixed.value == 0x1234)
         #expect(mixed.canonicalName == "unknown")
 
-        let anotherMixed = InputSourceResolver.fromValue(0x0f17)
-        #expect(anotherMixed.value == 0x0f17)
+        let anotherMixed = InputSourceResolver.fromValue(0x0f11)
+        #expect(anotherMixed.value == 0x0f11)
         #expect(anotherMixed.canonicalName == "unknown")
     }
 
@@ -193,6 +193,6 @@ struct InputSourceResolverTests {
         #expect(dp.formatted == "displayport1 (0x0f)")
 
         let hdmi = try InputSourceResolver.resolve("hdmi2")
-        #expect(hdmi.formatted == "hdmi2 (0x18)")
+        #expect(hdmi.formatted == "hdmi2 (0x12)")
     }
 }

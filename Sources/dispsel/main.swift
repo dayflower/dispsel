@@ -21,13 +21,13 @@ struct Dispsel: ParsableCommand {
               Keywords (case-insensitive):
                 dp, displayport, dp1, displayport1  (0x0f)
                 dp2, displayport2                   (0x10)
-                hdmi, hdmi1                         (0x17)
-                hdmi2                               (0x18)
-                usb, thunderbolt, usb1, thunderbolt1 (0x25)
-                usb2, thunderbolt2                  (0x27)
+                hdmi, hdmi1                         (0x11)
+                hdmi2                               (0x12)
+                usb, thunderbolt, usb1, thunderbolt1 (0x19)
+                usb2, thunderbolt2                  (0x1B)
 
-              Hex format: 0x0f, 0x17, etc.
-              Decimal format: 15, 23, etc.
+              Hex format: 0x0f, 0x11, etc.
+              Decimal format: 15, 17, etc.
             """,
         version: "0.1.1",
         subcommands: [
