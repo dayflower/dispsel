@@ -14,6 +14,8 @@ jobs:
     runs-on: macos-15
     permissions:
       contents: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
 
     steps:
       - name: Checkout code
@@ -55,11 +57,11 @@ jobs:
 
     steps:
       - name: Update Homebrew formula
-        uses: dawidd6/action-homebrew-bump-formula@v3
+        uses: mislav/bump-homebrew-formula-action@v3
         with:
-          token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
-          formula: dispsel
-          tag: ${{ github.ref }}
-          tap: dayflower/homebrew-tap
-          no_fork: true
-          force: true
+          formula-name: dispsel
+          formula-path: Formula/dispsel.rb
+          homebrew-tap: dayflower/homebrew-tap
+          download-url: https://github.com/dayflower/dispsel/releases/download/${{ github.ref_name }}/dispsel-${{ needs.build-and-release.outputs.version }}-arm64-apple-darwin.tar.gz
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
