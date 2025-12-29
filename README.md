@@ -1,12 +1,12 @@
 # dispsel
 
-A macOS command-line tool for switching monitor input sources and controlling USB KVM switches via DDC/CI protocol.
+A macOS command-line tool for switching monitor input sources and controlling monitor's built-in KVM via DDC/CI protocol.
 
 ## Features
 
 - Switch monitor input sources (DisplayPort, HDMI, Thunderbolt/USB-C)
 - Cycle through multiple input sources
-- Control USB KVM switches in PIP/PBP mode
+- Control monitor's built-in KVM (USB upstream switching)
 - List all connected displays with their properties
 - Select target display by UUID, product name, or serial number
 - Send error notifications to macOS Notification Center
@@ -14,7 +14,7 @@ A macOS command-line tool for switching monitor input sources and controlling US
 ## Requirements
 
 - macOS 13.0 or later
-- Swift 5.9 or later
+- Swift 6.0 or later
 - Displays that support DDC/CI protocol
 
 ## Installation
@@ -23,7 +23,7 @@ A macOS command-line tool for switching monitor input sources and controlling US
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dispsel.git
+git clone https://github.com/dayflower/dispsel.git
 cd dispsel
 
 # Build the project
@@ -78,10 +78,10 @@ dispsel switch next dp,hdmi,thunderbolt
 # If current input is thunderbolt, switches back to dp
 ```
 
-### Switch KVM Input
+### Switch Built-in KVM
 
 ```bash
-# Switch KVM to next input (for PIP/PBP mode)
+# Switch monitor's built-in KVM to next upstream port
 dispsel kvm next
 ```
 
@@ -164,56 +164,26 @@ dispsel --version
 - `0`: Success
 - Non-zero: Error occurred
 
-## Technical Details
+## Disclaimer
 
-### DDC/CI Protocol
+**USE AT YOUR OWN RISK**
 
-dispsel uses the DDC/CI protocol to communicate with displays via the [AppleSiliconDDC](https://github.com/waydabber/AppleSiliconDDC) library.
+This tool directly controls monitor hardware via DDC/CI protocol. While DDC/CI is a standard protocol, improper use or unexpected behavior may potentially cause monitor malfunctions or damage. The authors and contributors of this software:
 
-### VCP Codes
+- Provide this software "as is" without any warranty
+- Are not responsible for any damage to your hardware
+- Do not guarantee compatibility with all monitors
+- Recommend testing with non-critical displays first
 
-- **0x60**: Input source selection (read/write)
-- **0xE7**: KVM switch control (write 0xff00 for next input)
-
-## Development
-
-### Running Tests
-
-```bash
-swift test
-```
-
-### Project Structure
-
-```
-dispsel/
-├── Sources/
-│   ├── dispsel/           # CLI executable
-│   └── DispselCore/       # Core library
-│       ├── DDC/           # DDC/CI communication
-│       ├── InputSource/   # Input source resolution
-│       ├── DisplaySelection/ # Display matching
-│       ├── Commands/      # Command implementations
-│       ├── CLI/           # CLI utilities
-│       └── Errors/        # Error types
-└── Tests/
-    └── DispselCoreTests/  # Unit tests
-```
-
-## Documentation
-
-- [Specification](docs/SPEC.md) - Detailed specification
-- [Development Guide](CLAUDE.md) - Development guidelines
+Always ensure you understand what commands you are sending to your monitor before execution.
 
 ## License
 
-[Specify your license here]
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+See [LICENSE](./LICENSE) file for details.
 
 ## Acknowledgments
 
-- [AppleSiliconDDC](https://github.com/waydabber/AppleSiliconDDC) - DDC/CI library for macOS
-- [Swift Argument Parser](https://github.com/apple/swift-argument-parser) - Command-line argument parsing
+This project uses the following libraries:
+
+- [AppleSiliconDDC](https://github.com/waydabber/AppleSiliconDDC) - DDC/CI library for macOS ([MIT License](https://github.com/waydabber/AppleSiliconDDC/blob/main/LICENSE))
+- [Swift Argument Parser](https://github.com/apple/swift-argument-parser) - Command-line argument parsing ([Apache License 2.0](https://github.com/apple/swift-argument-parser/blob/main/LICENSE.txt))

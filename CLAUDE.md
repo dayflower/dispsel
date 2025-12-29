@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working on the dispsel project.
 
 ## Project Overview
 
-`dispsel` is a macOS command-line tool for switching monitor input sources and controlling USB KVM switches via DDC/CI protocol.
+`dispsel` is a macOS command-line tool for switching monitor input sources and controlling monitor's built-in KVM via DDC/CI protocol.
 
 - **Language**: Swift
 - **Target Platform**: macOS (Apple Silicon and Intel)
