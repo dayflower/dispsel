@@ -19,6 +19,16 @@ A macOS command-line tool for switching monitor input sources and controlling mo
 
 ## Installation
 
+### Homebrew
+
+```bash
+brew install dayflower/tap/dispsel
+```
+
+### Pre-built Binaries
+
+Download the latest release from the [Releases page](https://github.com/dayflower/dispsel/releases).
+
 ### Building from Source
 
 ```bash
