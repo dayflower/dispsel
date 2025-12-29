@@ -29,7 +29,7 @@ struct Dispsel: ParsableCommand {
               Hex format: 0x0f, 0x17, etc.
               Decimal format: 15, 23, etc.
             """,
-        version: "0.1.0",
+        version: "0.1.1",
         subcommands: [
             HelpCmd.self,
             ListCmd.self,
