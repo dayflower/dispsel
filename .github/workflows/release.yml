@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  PRODUCT_NAME: dispsel
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: macos-15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Build for Apple Silicon
+        run: |
+          swift build -c release --arch arm64 --product ${{ env.PRODUCT_NAME }}
+
+      - name: Create release archive
+        id: archive
+        run: |
+          BUILD_PATH=$(swift build -c release --arch arm64 --product ${{ env.PRODUCT_NAME }} --show-bin-path)
+          cp "$BUILD_PATH/${{ env.PRODUCT_NAME }}" ${{ env.PRODUCT_NAME }}
+          ARCHIVE_NAME="${{ env.PRODUCT_NAME }}-${{ steps.version.outputs.version }}-arm64-apple-darwin.tar.gz"
+          tar -czf "$ARCHIVE_NAME" ${{ env.PRODUCT_NAME }}
+          echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
+          echo "Archive created: $ARCHIVE_NAME"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.archive.outputs.archive_name }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-homebrew-tap:
+    name: Update Homebrew Tap
+    needs: build-and-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update Homebrew formula
+        uses: dawidd6/action-homebrew-bump-formula@v3
+        with:
+          token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+          formula: dispsel
+          tag: ${{ github.ref }}
+          tap: dayflower/homebrew-tap
+          no_fork: true
+          force: true
