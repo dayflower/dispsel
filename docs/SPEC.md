@@ -34,6 +34,7 @@ If no subcommand is provided, the `help` command is invoked.
 #### Feedback Control
 
 - **`-q`**: Quiet mode
+
   - Suppresses all warning/error/info messages
   - Exit status code is still returned
   - Takes precedence over `-o` if both are specified
@@ -60,7 +61,7 @@ Display selection does not apply to the `list` command.
 When a display is selected, print an info message:
 
 ```
-Target: (DEL) DELL U4025QW 999PL99
+Target: (DEL) DELL U4025QW 999XX99
 ```
 
 **Display Specifier Syntax**:
@@ -68,7 +69,7 @@ Target: (DEL) DELL U4025QW 999PL99
 ```
 -d 'uuid=10FF0FFF-0000-0000-7777-333311112222'
 -d 'productNameLike=U4025QW'
--d 'productNameLike=U4025QW:serialNumber=99PL99'
+-d 'productNameLike=U4025QW:serialNumber=99XX99'
 -d '10FF0FFF-0000-0000-7777-333311112222'
 ```
 
@@ -101,7 +102,7 @@ dispsel list
   uuid:            10FF0FFF-0000-0000-7777-333311112222
   manufacturer id: DEL
   product name:    DELL U4025QW
-  serial number:   999PL99
+  serial number:   999XX99
   connection:      DP -> DP
   current input:   displayport1 (0x0f)
 ```
@@ -181,13 +182,16 @@ None (silent even without `-q` option)
 ### Display Specifiers
 
 - **`uuid`**: UUID match
+
   - Case-insensitive
   - Hyphens are optional
 
 - **`productName`**: Product name exact match
+
   - Case-sensitive
 
 - **`productNameLike`**: Product name partial match
+
   - Case-insensitive
 
 - **`serialNumber`**: Serial number exact match
@@ -209,14 +213,14 @@ The tool does not validate whether the display supports the specified value; it 
 
 Keywords are case-insensitive (lowercase is canonical).
 
-| Value  | Keywords                                    |
-|--------|---------------------------------------------|
-| 0x0f   | displayport1, displayport, dp1, dp          |
-| 0x10   | displayport2, dp2                           |
-| 0x17   | hdmi1, hdmi                                 |
-| 0x18   | hdmi2                                       |
-| 0x25   | thunderbolt1, usb1, thunderbolt, usb        |
-| 0x27   | thunderbolt2, usb2                          |
+| Value | Keywords                             |
+| ----- | ------------------------------------ |
+| 0x0f  | displayport1, displayport, dp1, dp   |
+| 0x10  | displayport2, dp2                    |
+| 0x17  | hdmi1, hdmi                          |
+| 0x18  | hdmi2                                |
+| 0x25  | thunderbolt1, usb1, thunderbolt, usb |
+| 0x27  | thunderbolt2, usb2                   |
 
 ## Exit Status Codes
 
