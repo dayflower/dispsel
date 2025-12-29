@@ -54,7 +54,7 @@ Follow the exact output formats specified in [SPEC.md](docs/SPEC.md):
 - Info messages for target display selection
 - Success messages for switch operations
 - List command output format
-- Respect `-q` (quiet) and `-o/--notification` options
+- Respect `-q` (quiet) and `-m/--notification` options
 
 ## Development Workflow
 
@@ -85,7 +85,7 @@ swift build
 4. `list` command for display information
 5. `switch next` command for cycling inputs
 6. `kvm next` command for KVM switching
-7. Global options (`-q`, `-o`, `-d`, `--version`)
+7. Global options (`-q`, `-m`, `-d`, `--version`)
 8. Error handling and user feedback
 
 ## Code Style

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Global options applicable to all commands
-public struct GlobalOptions {
+public struct GlobalOptions: Sendable {
     /// Quiet mode: suppress all output
     public let quiet: Bool
     /// Notification mode: send errors to Notification Center

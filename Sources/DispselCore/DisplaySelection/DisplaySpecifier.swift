@@ -1,9 +1,9 @@
 import Foundation
 
 /// Represents criteria for selecting a display
-public struct DisplaySpecifier {
+public struct DisplaySpecifier: Sendable {
     /// Types of criteria for matching displays
-    enum Criterion {
+    enum Criterion: Sendable {
         /// UUID match (case-insensitive, hyphens optional)
         case uuid(String)
         /// Product name exact match (case-sensitive)

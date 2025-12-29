@@ -51,8 +51,11 @@ public class OutputFormatter {
             trigger: nil
         )
 
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
+        // Use Task to properly handle async notification
+        Task {
+            do {
+                try await UNUserNotificationCenter.current().add(request)
+            } catch {
                 // If notification fails, fall back to stderr
                 fputs("Failed to send notification: \(error.localizedDescription)\n", stderr)
                 fputs("Error: \(message)\n", stderr)

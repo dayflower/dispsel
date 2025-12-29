@@ -7,23 +7,23 @@ typealias IOAVService = AnyObject
 /// Represents a physical display device
 public struct Display {
     /// Unique identifier (EDID UUID)
-    let uuid: String
+    public let uuid: String
     /// Manufacturer identifier (e.g., "DEL" for Dell)
-    let manufacturerID: String
+    public let manufacturerID: String
     /// Product name
-    let productName: String
+    public let productName: String
     /// Alphanumeric serial number
-    let serialNumber: String
+    public let serialNumber: String
     /// Upstream transport type (e.g., "DP", "HDMI")
-    let transportUpstream: String?
+    public let transportUpstream: String?
     /// Downstream transport type
-    let transportDownstream: String?
+    public let transportDownstream: String?
     /// Internal IOAVService reference for DDC communication
     let service: IOAVService
 
     /// Formatted display name for output
     /// Format: "(manufacturerID) productName serialNumber"
-    var displayName: String {
+    public var displayName: String {
         "(\(manufacturerID)) \(productName) \(serialNumber)"
     }
 }

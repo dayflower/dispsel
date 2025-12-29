@@ -38,21 +38,12 @@ struct Dispsel: ParsableCommand {
         ],
         defaultSubcommand: HelpCmd.self
     )
-
-    @Flag(name: .shortAndLong, help: "Quiet mode (suppress all output)")
-    var quiet: Bool = false
-
-    @Flag(name: [.customShort("m"), .long], help: "Send errors to Notification Center")
-    var notification: Bool = false
-
-    @Option(name: [.short, .long], help: "Display specifier")
-    var display: String?
 }
 
 // MARK: - Global Options Group
 
 struct GlobalOptionsGroup: ParsableArguments {
-    @Flag(name: .shortAndLong, help: "Quiet mode")
+    @Flag(name: .shortAndLong, help: "Quiet mode (suppress all output)")
     var quiet: Bool = false
 
     @Flag(name: [.customShort("m"), .long], help: "Send errors to Notification Center")

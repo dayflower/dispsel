@@ -186,7 +186,7 @@ struct DisplayMatcherTests {
         #expect(throws: DispselError.self) {
             try DisplayMatcher.selectDisplay(
                 from: displays,
-                specifier: try DisplaySpecifier.parse("serialNumber=99XX99")
+                specifier: try DisplaySpecifier.parse("serialNumber=99xx99")
             )
         }
     }

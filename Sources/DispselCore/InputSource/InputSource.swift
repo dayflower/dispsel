@@ -1,11 +1,11 @@
 import Foundation
 
 /// Represents a display input source
-public struct InputSource {
+public struct InputSource: Sendable {
     /// VCP value for this input source
-    let value: UInt16
+    public let value: UInt16
     /// Canonical name (e.g., "displayport1", "hdmi1")
-    let canonicalName: String
+    public let canonicalName: String
 
     /// Formatted string for output
     /// Format: "canonicalName (0xHH)"

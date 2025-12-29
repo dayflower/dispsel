@@ -8,24 +8,27 @@ public struct ListCommand: Command {
         let displays = try DDCManager.enumerateDisplays()
 
         for (index, display) in displays.enumerated() {
-            print("[Display #\(index + 1)]")
-            print("  uuid:            \(display.uuid)")
-            print("  manufacturer id: \(display.manufacturerID)")
-            print("  product name:    \(display.productName)")
-            print("  serial number:   \(display.serialNumber)")
+            formatter.printInfo("[Display #\(index + 1)]")
+            formatter.printInfo("  uuid:            \(display.uuid)")
+            formatter.printInfo("  manufacturer id: \(display.manufacturerID)")
+            formatter.printInfo("  product name:    \(display.productName)")
+            formatter.printInfo("  serial number:   \(display.serialNumber)")
 
             if let upstream = display.transportUpstream,
                let downstream = display.transportDownstream {
-                print("  connection:      \(upstream) -> \(downstream)")
+                formatter.printInfo("  connection:      \(upstream) -> \(downstream)")
             }
 
             // Read current input source
-            if let (current, _) = try? DDCManager.readVCP(display: display, code: VCPCode.inputSource.rawValue) {
+            do {
+                let (current, _) = try DDCManager.readVCP(display: display, code: VCPCode.inputSource.rawValue)
                 let source = InputSourceResolver.fromValue(current)
-                print("  current input:   \(source.formatted)")
+                formatter.printInfo("  current input:   \(source.formatted)")
+            } catch {
+                // Silently skip if VCP read fails (display may not support input source query)
             }
 
-            print()
+            formatter.printInfo("")
         }
     }
 }
