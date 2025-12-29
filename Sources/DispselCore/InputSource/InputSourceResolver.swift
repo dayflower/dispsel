@@ -72,10 +72,28 @@ public class InputSourceResolver {
 
     /// Create an InputSource from a VCP value
     /// Used for displaying current input source
-    /// - Parameter value: VCP value
+    /// - Parameter value: VCP value (will be normalized if necessary)
     /// - Returns: InputSource with canonical name (or "unknown" if not recognized)
     public static func fromValue(_ value: UInt16) -> InputSource {
-        let canonical = valueToCanonical[value] ?? "unknown"
-        return InputSource(value: value, canonicalName: canonical)
+        let normalizedValue = normalizeVCPValue(value)
+        let canonical = valueToCanonical[normalizedValue] ?? "unknown"
+        return InputSource(value: normalizedValue, canonicalName: canonical)
+    }
+
+    /// Normalize VCP value by removing duplicated high/low bytes
+    /// Some monitors (e.g., DELL) return duplicated bytes for VCP 0x60
+    /// - Parameter value: Raw VCP value
+    /// - Returns: Normalized value
+    private static func normalizeVCPValue(_ value: UInt16) -> UInt16 {
+        let highByte = (value >> 8) & 0xFF
+        let lowByte = value & 0xFF
+
+        // If high and low bytes are identical, use only the low byte
+        if highByte == lowByte {
+            return lowByte
+        }
+
+        // Otherwise, return as-is
+        return value
     }
 }

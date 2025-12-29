@@ -34,10 +34,15 @@ public struct SwitchNextCommand: Command {
         }
 
         // Read current input
-        let (currentValue, _) = try DDCManager.readVCP(
+        let (rawCurrentValue, _) = try DDCManager.readVCP(
             display: display,
             code: VCPCode.inputSource.rawValue
         )
+
+        // Normalize the current value for comparison
+        // (Some monitors return duplicated bytes like 0x0f0f)
+        let currentSource = InputSourceResolver.fromValue(rawCurrentValue)
+        let currentValue = currentSource.value
 
         // Find current in list
         guard let currentIndex = sources.firstIndex(where: { $0.value == currentValue }) else {
@@ -55,8 +60,7 @@ public struct SwitchNextCommand: Command {
             value: nextSource.value
         )
 
-        // Success output
-        let currentSource = InputSourceResolver.fromValue(currentValue)
+        // Success output (use already-computed currentSource)
         formatter.printSuccess("Switched to: \(nextSource.formatted) from: \(currentSource.formatted)")
     }
 }

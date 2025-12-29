@@ -4,20 +4,17 @@
 
 `dispsel` is a macOS CLI tool for switching monitor input sources and controlling USB KVM switches via DDC/CI protocol.
 
-## Implementation
+## Requirements
 
-- **Language**: Swift
+- **Platform**: macOS (Apple Silicon and Intel)
 - **Build Requirements**: Command Line Tools (no Xcode required)
 - **Build Command**: `swift build`
-- **DDC/CI Library**: [AppleSiliconDDC](https://github.com/waydabber/AppleSiliconDDC)
 
 ## Core Functionality
 
 1. Switch to a specified input source
 2. Cycle to the next input source
 3. Switch USB KVM during PBP/PIP mode
-
-All functions are implemented using DDC/CI VCP (Virtual Control Panel) commands.
 
 ## Command Line Interface
 
@@ -123,8 +120,7 @@ dispsel switch <INPUT_SOURCE>
 dispsel switch dp
 ```
 
-- Uses VCP code 0x60
-- See "Input Source Specifiers" section for syntax
+See "Input Source Specifiers" section for available input sources.
 
 **Success Output**:
 
@@ -150,12 +146,11 @@ If current input is `dp`, switches to `hdmi`.
 
 **Behavior**:
 
-- Current input source is determined by VCP 0x60 current value
+- Reads the current input source from the monitor
 - Error if current input is not in the provided list
 - If duplicate entries exist in the list, the first match is used
 - Cycles to the first item if current input is the last in the list
 - No action if list contains only one item
-- Switches to next input using VCP 0x60
 
 **Success Output**:
 
@@ -171,7 +166,7 @@ Switch KVM input to the next PC when using PIP/PBP mode with multiple input sour
 dispsel kvm next
 ```
 
-- Writes 0xff00 to VCP code 0xE7
+Triggers the monitor's built-in KVM to switch to the next connected PC.
 
 **Success Output**:
 
@@ -201,26 +196,26 @@ None (silent even without `-q` option)
 
 Input sources can be specified using:
 
-- **Keywords** (case-insensitive)
-- **Hexadecimal** (e.g., `0x0f`)
-- **Decimal** (e.g., `15`)
+- **Keywords** (case-insensitive, recommended)
+- **Hexadecimal values** (e.g., `0x0f`)
+- **Decimal values** (e.g., `15`)
 
 If a keyword is provided but doesn't match any defined keyword, an error is returned.
-
-The tool does not validate whether the display supports the specified value; it writes directly to VCP.
 
 #### Input Source Keywords
 
 Keywords are case-insensitive (lowercase is canonical).
 
-| Value | Keywords                             |
-| ----- | ------------------------------------ |
-| 0x0f  | displayport1, displayport, dp1, dp   |
-| 0x10  | displayport2, dp2                    |
-| 0x17  | hdmi1, hdmi                          |
-| 0x18  | hdmi2                                |
-| 0x25  | thunderbolt1, usb1, thunderbolt, usb |
-| 0x27  | thunderbolt2, usb2                   |
+| Keywords                             | Description         |
+| ------------------------------------ | ------------------- |
+| displayport1, displayport, dp1, dp   | DisplayPort 1       |
+| displayport2, dp2                    | DisplayPort 2       |
+| hdmi1, hdmi                          | HDMI 1              |
+| hdmi2                                | HDMI 2              |
+| thunderbolt1, usb1, thunderbolt, usb | Thunderbolt/USB-C 1 |
+| thunderbolt2, usb2                   | Thunderbolt/USB-C 2 |
+
+**Note**: The tool sends commands directly to the monitor. If your monitor doesn't support a particular input source, the command may be ignored or result in unexpected behavior.
 
 ## Exit Status Codes
 

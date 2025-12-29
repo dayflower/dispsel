@@ -139,6 +139,52 @@ struct InputSourceResolverTests {
         #expect(unknown.canonicalName == "unknown")
     }
 
+    // MARK: - VCP Value Normalization Tests
+
+    @Test("Normalize duplicated byte values")
+    func vcpValueNormalization() {
+        // Duplicated bytes should be normalized to single byte
+        let dp = InputSourceResolver.fromValue(0x0f0f)
+        #expect(dp.value == 0x0f)
+        #expect(dp.canonicalName == "displayport1")
+
+        let hdmi = InputSourceResolver.fromValue(0x1717)
+        #expect(hdmi.value == 0x17)
+        #expect(hdmi.canonicalName == "hdmi1")
+
+        let thunderbolt = InputSourceResolver.fromValue(0x2525)
+        #expect(thunderbolt.value == 0x25)
+        #expect(thunderbolt.canonicalName == "thunderbolt1")
+    }
+
+    @Test("Non-duplicated bytes are not normalized")
+    func nonDuplicatedBytesNotNormalized() {
+        // Different high/low bytes should remain unchanged
+        let mixed = InputSourceResolver.fromValue(0x1234)
+        #expect(mixed.value == 0x1234)
+        #expect(mixed.canonicalName == "unknown")
+
+        let anotherMixed = InputSourceResolver.fromValue(0x0f17)
+        #expect(anotherMixed.value == 0x0f17)
+        #expect(anotherMixed.canonicalName == "unknown")
+    }
+
+    @Test("Edge cases for normalization")
+    func normalizationEdgeCases() {
+        // 0x0000 should remain 0x00
+        let zero = InputSourceResolver.fromValue(0x0000)
+        #expect(zero.value == 0x00)
+
+        // 0xFFFF should become 0xFF
+        let allOnes = InputSourceResolver.fromValue(0xFFFF)
+        #expect(allOnes.value == 0xFF)
+
+        // Single byte values (high byte is 0x00)
+        let singleByte = InputSourceResolver.fromValue(0x000f)
+        #expect(singleByte.value == 0x0f)
+        #expect(singleByte.canonicalName == "displayport1")
+    }
+
     // MARK: - Formatted Output Tests
 
     @Test("Format input source for display")
