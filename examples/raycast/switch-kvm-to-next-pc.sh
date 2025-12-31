@@ -15,4 +15,4 @@
 # @raycast.authorURL https://github.com/dayflower/dispsel
 
 # Switch KVM to next PC
-dispsel kvm next
+dispsel kvm next -m

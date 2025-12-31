@@ -15,4 +15,4 @@
 # @raycast.authorURL https://github.com/dayflower/dispsel
 
 # Cycle between DP, HDMI, and Thunderbolt
-dispsel -m switch next dp,hdmi,thunderbolt
+dispsel switch next dp,hdmi,thunderbolt -m

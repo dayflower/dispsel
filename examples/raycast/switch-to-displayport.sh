@@ -15,4 +15,4 @@
 # @raycast.authorURL https://github.com/dayflower/dispsel
 
 # Switch to DisplayPort input
-dispsel -m switch dp
+dispsel switch -m dp

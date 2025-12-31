@@ -29,7 +29,7 @@ struct Dispsel: ParsableCommand {
               Hex format: 0x0f, 0x11, etc.
               Decimal format: 15, 17, etc.
             """,
-        version: "0.1.3",
+        version: "0.1.4",
         subcommands: [
             HelpCmd.self,
             ListCmd.self,
@@ -124,42 +124,50 @@ struct SwitchCmd: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "switch",
         abstract: "Switch input source",
-        subcommands: [Next.self]
+        discussion: """
+            USAGE:
+              dispsel switch <INPUT_SOURCE>
+              dispsel switch next <INPUT_SOURCE_LIST>
+
+            Switch to a specific input source, or cycle to the next input from a list.
+            """
     )
 
-    @Argument(help: "Input source (keyword, hex, or decimal)")
-    var inputSource: String
+    @Argument(parsing: .remaining, help: "Input source or 'next' followed by comma-separated list")
+    var args: [String] = []
 
     @OptionGroup var options: GlobalOptionsGroup
 
     func run() throws {
-        let command = SwitchCommand(inputSourceSpec: inputSource)
+        guard !args.isEmpty else {
+            throw ValidationError("Missing expected argument '<input-source>'")
+        }
+
         let formatter = OutputFormatter(options: options.globalOptions)
 
-        do {
-            try command.execute(options: options.globalOptions, formatter: formatter)
-        } catch {
-            formatter.printError(error.localizedDescription)
-            throw ExitCode.failure
-        }
-    }
+        // Check if first argument is "next"
+        if args[0].lowercased() == "next" {
+            // Handle "switch next <list>" syntax
+            guard args.count >= 2 else {
+                throw ValidationError("Missing expected argument '<input-source-list>' after 'next'")
+            }
 
-    // MARK: Switch Next Subcommand
-
-    struct Next: ParsableCommand {
-        static let configuration = CommandConfiguration(
-            commandName: "next",
-            abstract: "Cycle to next input source"
-        )
-
-        @Argument(help: "Comma-separated list of input sources")
-        var inputSourceList: String
-
-        @OptionGroup var options: GlobalOptionsGroup
-
-        func run() throws {
+            let inputSourceList = args[1]
             let command = SwitchNextCommand(inputSourceList: inputSourceList)
-            let formatter = OutputFormatter(options: options.globalOptions)
+
+            do {
+                try command.execute(options: options.globalOptions, formatter: formatter)
+            } catch {
+                formatter.printError(error.localizedDescription)
+                throw ExitCode.failure
+            }
+        } else {
+            // Handle "switch <source>" syntax
+            guard args.count == 1 else {
+                throw ValidationError("Expected single argument, but got \(args.count)")
+            }
+
+            let command = SwitchCommand(inputSourceSpec: args[0])
 
             do {
                 try command.execute(options: options.globalOptions, formatter: formatter)

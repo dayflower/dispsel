@@ -15,4 +15,4 @@
 # @raycast.authorURL https://github.com/dayflower/dispsel
 
 # Switch to HDMI input
-dispsel -m switch hdmi
+dispsel switch -m hdmi

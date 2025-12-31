@@ -15,4 +15,4 @@
 # @raycast.authorURL https://github.com/dayflower/dispsel
 
 # Switch to Thunderbolt/USB-C input
-dispsel -m switch thunderbolt
+dispsel switch -m thunderbolt
