@@ -102,9 +102,11 @@ dispsel list
   serial number:   999XX99
   connection:      DP -> DP
   current input:   displayport1 (0x0f)
+  volume:          50 (max: 100)
 ```
 
 - `connection`: Shows `transportUpstream -> transportDownstream`
+- `volume`: Shows current volume and maximum if display supports volume control (omitted if not supported)
 
 ### switch
 
@@ -171,6 +173,36 @@ Triggers the monitor's built-in KVM to switch to the next connected PC.
 **Success Output**:
 
 None (silent even without `-q` option)
+
+### volume
+
+Set the display's speaker volume.
+
+```
+dispsel volume <VALUE>
+```
+
+**Example**:
+
+```
+dispsel volume 50
+```
+
+**Arguments**:
+
+- **VALUE**: Volume level (decimal number, 0 to display's maximum, typically 100)
+
+**Behavior**:
+
+- Reads the display's maximum volume capability first
+- Error if the specified value exceeds the display's maximum
+- Error if the display does not support volume control
+
+**Success Output**:
+
+```
+Volume set to: 50
+```
 
 ## Specifiers
 

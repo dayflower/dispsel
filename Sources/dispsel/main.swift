@@ -34,7 +34,8 @@ struct Dispsel: ParsableCommand {
             HelpCmd.self,
             ListCmd.self,
             SwitchCmd.self,
-            KVMCmd.self
+            KVMCmd.self,
+            VolumeCmd.self
         ],
         defaultSubcommand: HelpCmd.self
     )
@@ -85,6 +86,8 @@ struct HelpCmd: ParsableCommand {
                 print(SwitchCmd.helpMessage())
             case "kvm":
                 print(KVMCmd.helpMessage())
+            case "volume":
+                print(VolumeCmd.helpMessage())
             default:
                 throw ValidationError("Unknown subcommand '\(subcommand)'")
             }
@@ -206,6 +209,39 @@ struct KVMCmd: ParsableCommand {
                 formatter.printError(error.localizedDescription)
                 throw ExitCode.failure
             }
+        }
+    }
+}
+
+// MARK: - Volume Command
+
+struct VolumeCmd: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        commandName: "volume",
+        abstract: "Set display volume",
+        discussion: """
+            USAGE:
+              dispsel volume <VALUE>
+
+            Set the display's speaker volume to the specified value.
+            VALUE must be a decimal number between 0 and the display's maximum (typically 100).
+            """
+    )
+
+    @Argument(help: "Volume level (0 to display maximum, typically 100)")
+    var value: Int
+
+    @OptionGroup var options: GlobalOptionsGroup
+
+    func run() throws {
+        let command = VolumeCommand(volumeValue: value)
+        let formatter = OutputFormatter(options: options.globalOptions)
+
+        do {
+            try command.execute(options: options.globalOptions, formatter: formatter)
+        } catch {
+            formatter.printError(error.localizedDescription)
+            throw ExitCode.failure
         }
     }
 }

@@ -28,6 +28,14 @@ public struct ListCommand: Command {
                 // Silently skip if VCP read fails (display may not support input source query)
             }
 
+            // Read current volume
+            do {
+                let (current, max) = try DDCManager.readVCP(display: display, code: VCPCode.volume.rawValue)
+                formatter.printInfo("  volume:          \(current) (max: \(max))")
+            } catch {
+                // Silently skip if VCP read fails (display may not support volume control)
+            }
+
             formatter.printInfo("")
         }
     }

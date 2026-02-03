@@ -10,6 +10,7 @@ public enum DispselError: LocalizedError {
     case invalidInputSource(input: String)
     case currentInputNotInList(current: UInt16)
     case invalidDisplaySpecifier(specifier: String)
+    case invalidVolumeValue(value: Int, max: UInt16)
 
     public var errorDescription: String? {
         switch self {
@@ -29,6 +30,8 @@ public enum DispselError: LocalizedError {
             return "Current input source 0x\(String(format: "%02x", current)) is not in the provided list"
         case .invalidDisplaySpecifier(let specifier):
             return "Invalid display specifier: \(specifier)"
+        case .invalidVolumeValue(let value, let max):
+            return "Invalid volume value: \(value). Must be between 0 and \(max)"
         }
     }
 }

@@ -7,6 +7,7 @@ A macOS command-line tool for switching monitor input sources and controlling mo
 - Switch monitor input sources (DisplayPort, HDMI, Thunderbolt/USB-C)
 - Cycle through multiple input sources
 - Control monitor's built-in KVM (USB upstream switching)
+- Control display speaker volume
 - List all connected displays with their properties
 - Select target display by UUID, product name, or serial number
 - Send error notifications to macOS Notification Center
@@ -62,6 +63,7 @@ Output example:
   serial number:   999XX99
   connection:      DP -> DP
   current input:   displayport1 (0x0f)
+  volume:          50 (max: 100)
 ```
 
 ### Switch Input Source
@@ -93,6 +95,19 @@ dispsel switch next dp,hdmi,thunderbolt
 ```bash
 # Switch monitor's built-in KVM to next upstream port
 dispsel kvm next
+```
+
+### Set Display Volume
+
+```bash
+# Set volume to 50
+dispsel volume 50
+
+# Set volume on specific display
+dispsel -d 'productNameLike=DELL' volume 75
+
+# Mute (set to 0)
+dispsel volume 0
 ```
 
 ## Input Source Keywords

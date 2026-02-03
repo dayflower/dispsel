@@ -4,6 +4,8 @@ import Foundation
 public enum VCPCode: UInt8 {
     /// Input source selection (read/write)
     case inputSource = 0x60
+    /// Audio speaker volume (read/write)
+    case volume = 0x62
     /// KVM switch control (write)
     case kvmSwitch = 0xE7
 }
