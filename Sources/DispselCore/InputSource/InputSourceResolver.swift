@@ -6,10 +6,10 @@ public class InputSourceResolver {
     /// Keywords are case-insensitive
     private static let keywordMap: [String: (UInt16, String)] = [
         // 0x0f - DisplayPort 1
-        "displayport1": (0x0f, "displayport1"),
-        "displayport": (0x0f, "displayport1"),
-        "dp1": (0x0f, "displayport1"),
-        "dp": (0x0f, "displayport1"),
+        "displayport1": (0x0F, "displayport1"),
+        "displayport": (0x0F, "displayport1"),
+        "dp1": (0x0F, "displayport1"),
+        "dp": (0x0F, "displayport1"),
         // 0x10 - DisplayPort 2
         "displayport2": (0x10, "displayport2"),
         "dp2": (0x10, "displayport2"),
@@ -30,7 +30,7 @@ public class InputSourceResolver {
 
     /// Reverse lookup: value to canonical name
     private static let valueToCanonical: [UInt16: String] = [
-        0x0f: "displayport1",
+        0x0F: "displayport1",
         0x10: "displayport2",
         0x11: "hdmi1",
         0x12: "hdmi2",

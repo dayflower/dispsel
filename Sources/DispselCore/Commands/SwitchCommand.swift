@@ -15,14 +15,14 @@ public struct SwitchCommand: Command {
         // Select target display
         let (display, warning) = try DisplayMatcher.selectDisplay(
             from: displays,
-            specifier: options.displaySpecifier
+            specifier: options.displaySpecifier,
         )
 
         // Print target info
         formatter.printInfo("Target: \(display.displayName)")
 
         // Print warning if multiple matches
-        if let warning = warning {
+        if let warning {
             formatter.printWarning(warning)
         }
 
@@ -33,7 +33,7 @@ public struct SwitchCommand: Command {
         try DDCManager.writeVCP(
             display: display,
             code: VCPCode.inputSource.rawValue,
-            value: inputSource.value
+            value: inputSource.value,
         )
 
         // Success output

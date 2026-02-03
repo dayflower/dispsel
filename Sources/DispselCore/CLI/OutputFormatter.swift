@@ -48,7 +48,7 @@ public class OutputFormatter {
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: content,
-            trigger: nil
+            trigger: nil,
         )
 
         // Use Task to properly handle async notification

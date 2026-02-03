@@ -1,7 +1,7 @@
 import Foundation
 import IOKit
 
-// IOAVService is an alias for AnyObject
+/// IOAVService is an alias for AnyObject
 typealias IOAVService = AnyObject
 
 /// Represents a physical display device

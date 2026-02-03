@@ -1,5 +1,5 @@
-import Foundation
 import AppleSiliconDDC
+import Foundation
 
 /// Manager for DDC/CI communication with displays
 public class DDCManager {
@@ -23,7 +23,7 @@ public class DDCManager {
                 serialNumber: service.alphanumericSerialNumber,
                 transportUpstream: service.transportUpstream.isEmpty ? nil : service.transportUpstream,
                 transportDownstream: service.transportDownstream.isEmpty ? nil : service.transportDownstream,
-                service: ioService
+                service: ioService,
             )
         }
     }

@@ -1,6 +1,6 @@
-import Foundation
 import ArgumentParser
 import DispselCore
+import Foundation
 
 @main
 struct Dispsel: ParsableCommand {
@@ -8,36 +8,36 @@ struct Dispsel: ParsableCommand {
         commandName: "dispsel",
         abstract: "macOS CLI tool for switching monitor input sources via DDC/CI",
         discussion: """
-            DISPLAY SPECIFIERS:
-              uuid=<UUID>         Match by UUID (case-insensitive, hyphens optional)
-              productName=<NAME>  Match by exact product name (case-sensitive)
-              productNameLike=<PATTERN> Match by partial product name (case-insensitive)
-              serialNumber=<SN>   Match by serial number (case-sensitive)
+        DISPLAY SPECIFIERS:
+          uuid=<UUID>         Match by UUID (case-insensitive, hyphens optional)
+          productName=<NAME>  Match by exact product name (case-sensitive)
+          productNameLike=<PATTERN> Match by partial product name (case-insensitive)
+          serialNumber=<SN>   Match by serial number (case-sensitive)
 
-              Multiple criteria can be joined with ':' (AND condition)
-              Example: -d 'productNameLike=U4025QW:serialNumber=99XX99'
+          Multiple criteria can be joined with ':' (AND condition)
+          Example: -d 'productNameLike=U4025QW:serialNumber=99XX99'
 
-            INPUT SOURCES:
-              Keywords (case-insensitive):
-                dp, displayport, dp1, displayport1  (0x0f)
-                dp2, displayport2                   (0x10)
-                hdmi, hdmi1                         (0x11)
-                hdmi2                               (0x12)
-                usb, thunderbolt, usb1, thunderbolt1 (0x19)
-                usb2, thunderbolt2                  (0x1B)
+        INPUT SOURCES:
+          Keywords (case-insensitive):
+            dp, displayport, dp1, displayport1  (0x0f)
+            dp2, displayport2                   (0x10)
+            hdmi, hdmi1                         (0x11)
+            hdmi2                               (0x12)
+            usb, thunderbolt, usb1, thunderbolt1 (0x19)
+            usb2, thunderbolt2                  (0x1B)
 
-              Hex format: 0x0f, 0x11, etc.
-              Decimal format: 15, 17, etc.
-            """,
+          Hex format: 0x0f, 0x11, etc.
+          Decimal format: 15, 17, etc.
+        """,
         version: "0.1.4",
         subcommands: [
             HelpCmd.self,
             ListCmd.self,
             SwitchCmd.self,
             KVMCmd.self,
-            VolumeCmd.self
+            VolumeCmd.self,
         ],
-        defaultSubcommand: HelpCmd.self
+        defaultSubcommand: HelpCmd.self,
     )
 }
 
@@ -60,7 +60,7 @@ struct GlobalOptionsGroup: ParsableArguments {
             displaySpecifier: {
                 guard let spec = display else { return nil }
                 return try? DisplaySpecifier.parse(spec)
-            }()
+            }(),
         )
     }
 }
@@ -70,14 +70,14 @@ struct GlobalOptionsGroup: ParsableArguments {
 struct HelpCmd: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "help",
-        abstract: "Display help information"
+        abstract: "Display help information",
     )
 
     @Argument(help: "The subcommand to show help for")
     var subcommand: String?
 
     func run() throws {
-        if let subcommand = subcommand {
+        if let subcommand {
             // Show help for specific subcommand
             switch subcommand.lowercased() {
             case "list":
@@ -103,7 +103,7 @@ struct HelpCmd: ParsableCommand {
 struct ListCmd: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "list",
-        abstract: "List all connected displays"
+        abstract: "List all connected displays",
     )
 
     @OptionGroup var options: GlobalOptionsGroup
@@ -128,12 +128,12 @@ struct SwitchCmd: ParsableCommand {
         commandName: "switch",
         abstract: "Switch input source",
         discussion: """
-            USAGE:
-              dispsel switch <INPUT_SOURCE>
-              dispsel switch next <INPUT_SOURCE_LIST>
+        USAGE:
+          dispsel switch <INPUT_SOURCE>
+          dispsel switch next <INPUT_SOURCE_LIST>
 
-            Switch to a specific input source, or cycle to the next input from a list.
-            """
+        Switch to a specific input source, or cycle to the next input from a list.
+        """,
     )
 
     @Argument(parsing: .remaining, help: "Input source or 'next' followed by comma-separated list")
@@ -188,13 +188,13 @@ struct KVMCmd: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "kvm",
         abstract: "KVM control",
-        subcommands: [Next.self]
+        subcommands: [Next.self],
     )
 
     struct Next: ParsableCommand {
         static let configuration = CommandConfiguration(
             commandName: "next",
-            abstract: "Switch KVM to next input"
+            abstract: "Switch KVM to next input",
         )
 
         @OptionGroup var options: GlobalOptionsGroup
@@ -220,12 +220,12 @@ struct VolumeCmd: ParsableCommand {
         commandName: "volume",
         abstract: "Set display volume",
         discussion: """
-            USAGE:
-              dispsel volume <VALUE>
+        USAGE:
+          dispsel volume <VALUE>
 
-            Set the display's speaker volume to the specified value.
-            VALUE must be a decimal number between 0 and the display's maximum (typically 100).
-            """
+        Set the display's speaker volume to the specified value.
+        VALUE must be a decimal number between 0 and the display's maximum (typically 100).
+        """,
     )
 
     @Argument(help: "Volume level (0 to display maximum, typically 100)")

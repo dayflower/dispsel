@@ -11,13 +11,13 @@ public struct KVMNextCommand: Command {
         // Select target display
         let (display, warning) = try DisplayMatcher.selectDisplay(
             from: displays,
-            specifier: options.displaySpecifier
+            specifier: options.displaySpecifier,
         )
 
         // Print target info
         formatter.printInfo("Target: \(display.displayName)")
 
-        if let warning = warning {
+        if let warning {
             formatter.printWarning(warning)
         }
 
@@ -25,7 +25,7 @@ public struct KVMNextCommand: Command {
         try DDCManager.writeVCP(
             display: display,
             code: VCPCode.kvmSwitch.rawValue,
-            value: VCPValue.kvmNext
+            value: VCPValue.kvmNext,
         )
 
         // Silent success (no output even without -q)

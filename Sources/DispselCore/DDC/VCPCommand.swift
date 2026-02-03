@@ -11,7 +11,7 @@ public enum VCPCode: UInt8 {
 }
 
 /// Predefined VCP values for specific commands
-public struct VCPValue {
+public enum VCPValue {
     /// Value to write to VCP 0xE7 for KVM next operation
-    public static let kvmNext: UInt16 = 0xff00
+    public static let kvmNext: UInt16 = 0xFF00
 }

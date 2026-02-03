@@ -4,7 +4,7 @@ import Foundation
 public struct ListCommand: Command {
     public init() {}
 
-    public func execute(options: GlobalOptions, formatter: OutputFormatter) throws {
+    public func execute(options _: GlobalOptions, formatter: OutputFormatter) throws {
         let displays = try DDCManager.enumerateDisplays()
 
         for (index, display) in displays.enumerated() {
@@ -15,7 +15,8 @@ public struct ListCommand: Command {
             formatter.printInfo("  serial number:   \(display.serialNumber)")
 
             if let upstream = display.transportUpstream,
-               let downstream = display.transportDownstream {
+               let downstream = display.transportDownstream
+            {
                 formatter.printInfo("  connection:      \(upstream) -> \(downstream)")
             }
 

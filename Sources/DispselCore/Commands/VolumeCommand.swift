@@ -15,25 +15,25 @@ public struct VolumeCommand: Command {
         // Select target display
         let (display, warning) = try DisplayMatcher.selectDisplay(
             from: displays,
-            specifier: options.displaySpecifier
+            specifier: options.displaySpecifier,
         )
 
         // Print target info
         formatter.printInfo("Target: \(display.displayName)")
 
         // Print warning if multiple matches
-        if let warning = warning {
+        if let warning {
             formatter.printWarning(warning)
         }
 
         // Read current volume to get max value
         let (_, maxVolume) = try DDCManager.readVCP(
             display: display,
-            code: VCPCode.volume.rawValue
+            code: VCPCode.volume.rawValue,
         )
 
         // Validate volume value
-        guard volumeValue >= 0 && volumeValue <= Int(maxVolume) else {
+        guard volumeValue >= 0, volumeValue <= Int(maxVolume) else {
             throw DispselError.invalidVolumeValue(value: volumeValue, max: maxVolume)
         }
 
@@ -41,7 +41,7 @@ public struct VolumeCommand: Command {
         try DDCManager.writeVCP(
             display: display,
             code: VCPCode.volume.rawValue,
-            value: UInt16(volumeValue)
+            value: UInt16(volumeValue),
         )
 
         // Success output

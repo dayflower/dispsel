@@ -15,23 +15,23 @@ public enum DispselError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .noDisplaysFound:
-            return "No displays found"
-        case .noMatchingDisplay(let specifier):
-            return "No display matching '\(specifier)' found"
-        case .multipleMatchingDisplays(let count, let specifier):
-            return "Multiple displays (\(count)) matching '\(specifier)' found"
-        case .vcpReadFailed(let code):
-            return "Failed to read VCP code 0x\(String(format: "%02x", code))"
-        case .vcpWriteFailed(let code, let value):
-            return "Failed to write VCP code 0x\(String(format: "%02x", code)) with value 0x\(String(format: "%04x", value))"
-        case .invalidInputSource(let input):
-            return "Invalid input source: \(input)"
-        case .currentInputNotInList(let current):
-            return "Current input source 0x\(String(format: "%02x", current)) is not in the provided list"
-        case .invalidDisplaySpecifier(let specifier):
-            return "Invalid display specifier: \(specifier)"
-        case .invalidVolumeValue(let value, let max):
-            return "Invalid volume value: \(value). Must be between 0 and \(max)"
+            "No displays found"
+        case let .noMatchingDisplay(specifier):
+            "No display matching '\(specifier)' found"
+        case let .multipleMatchingDisplays(count, specifier):
+            "Multiple displays (\(count)) matching '\(specifier)' found"
+        case let .vcpReadFailed(code):
+            "Failed to read VCP code 0x\(String(format: "%02x", code))"
+        case let .vcpWriteFailed(code, value):
+            "Failed to write VCP code 0x\(String(format: "%02x", code)) with value 0x\(String(format: "%04x", value))"
+        case let .invalidInputSource(input):
+            "Invalid input source: \(input)"
+        case let .currentInputNotInList(current):
+            "Current input source 0x\(String(format: "%02x", current)) is not in the provided list"
+        case let .invalidDisplaySpecifier(specifier):
+            "Invalid display specifier: \(specifier)"
+        case let .invalidVolumeValue(value, max):
+            "Invalid volume value: \(value). Must be between 0 and \(max)"
         }
     }
 }

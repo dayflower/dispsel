@@ -15,13 +15,13 @@ public struct SwitchNextCommand: Command {
         // Select target display
         let (display, warning) = try DisplayMatcher.selectDisplay(
             from: displays,
-            specifier: options.displaySpecifier
+            specifier: options.displaySpecifier,
         )
 
         // Print target info
         formatter.printInfo("Target: \(display.displayName)")
 
-        if let warning = warning {
+        if let warning {
             formatter.printWarning(warning)
         }
 
@@ -36,7 +36,7 @@ public struct SwitchNextCommand: Command {
         // Read current input
         let (rawCurrentValue, _) = try DDCManager.readVCP(
             display: display,
-            code: VCPCode.inputSource.rawValue
+            code: VCPCode.inputSource.rawValue,
         )
 
         // Normalize the current value for comparison
@@ -57,7 +57,7 @@ public struct SwitchNextCommand: Command {
         try DDCManager.writeVCP(
             display: display,
             code: VCPCode.inputSource.rawValue,
-            value: nextSource.value
+            value: nextSource.value,
         )
 
         // Success output (use already-computed currentSource)
