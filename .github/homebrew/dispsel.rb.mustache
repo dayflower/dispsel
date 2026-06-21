@@ -1,0 +1,15 @@
+class Dispsel < Formula
+  desc "CLI tool for switching monitor input sources via DDC/CI"
+  homepage "https://github.com/dayflower/dispsel"
+  version "{{version}}"
+  url "{{artifact.url}}"
+  sha256 "{{artifact.sha256}}"
+  license "MIT"
+
+  depends_on arch: :arm64
+  depends_on macos: :ventura
+
+  def install
+    bin.install "dispsel"
+  end
+end
