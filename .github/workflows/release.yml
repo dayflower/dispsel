@@ -54,14 +54,23 @@ jobs:
     name: Update Homebrew Tap
     needs: build-and-release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Update Homebrew formula
-        uses: mislav/bump-homebrew-formula-action@v3
-        with:
-          formula-name: dispsel
-          formula-path: Formula/dispsel.rb
-          homebrew-tap: dayflower/homebrew-tap
-          download-url: https://github.com/dayflower/dispsel/releases/download/${{ github.ref_name }}/dispsel-${{ needs.build-and-release.outputs.version }}-arm64-apple-darwin.tar.gz
+        uses: dayflower/brew-up@v0
         env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          release-tag: ${{ github.ref_name }}
+          template-path: .github/homebrew/dispsel.rb.mustache
+          output-path: Formula/dispsel.rb
+          asset-map: default=dispsel-{{version}}-arm64-apple-darwin.tar.gz
+          target-repo: dayflower/homebrew-tap
+          target-branch: main
+          target-repo-token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+          publish-mode: pr-auto-merge
